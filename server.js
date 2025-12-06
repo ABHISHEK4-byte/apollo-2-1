@@ -51,7 +51,8 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`💫 APOLLO 2.1 (Groq) running at http://localhost:${PORT}`);
 });
