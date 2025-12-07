@@ -1,56 +1,58 @@
-// --- FIREBASE AUTH SETUP ---
+// =======================
+// 1. FIREBASE AUTH SETUP
+// =======================
 
-// Firebase Config
+// Firebase Config (your project)
 const firebaseConfig = {
   apiKey: "AIzaSyACLHuKEThzkKuAd1dWAM1eGttZFud_aC-w",
   authDomain: "apollo-2-1.firebaseapp.com",
   projectId: "apollo-2-1",
   storageBucket: "apollo-2-1.appspot.com",
   messagingSenderId: "34783584862",
-  appId: "1:34783584862:web:ff896b91472a5adeb20acf"
+  appId: "1:34783584862:web:ff896b91472a5adeb20acf",
 };
 
-// Initialize Firebase (ONLY ONCE)
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-// Firebase Auth reference
 const auth = firebase.auth();
 
+// =======================
+// 2. BASIC ELEMENTS
+// =======================
 
-
-
-// ELEMENTS
 const chatEl = document.getElementById("chat");
 const formEl = document.getElementById("chat-form");
 const inputEl = document.getElementById("user-input");
 
-// Buttons & modals
-const settingsBtn = document.getElementById("settings-btn");
-const signupBtn = document.getElementById("signup-btn");
-const settingsModal = document.getElementById("settings-modal");
-const signupModal = document.getElementById("signup-modal");
-const settingsClose = document.getElementById("settings-close");
-const signupClose = document.getElementById("signup-close");
-const signupSave = document.getElementById("signup-save");
+const appEl = document.getElementById("app");
 
-// FOUNDER INFO – CHANGE THESE TO YOUR DETAILS
-const CREATOR_NAME = "Abhishek"; // <-- put your name if different
+// Settings / modal elements (optional)
+const settingsBtn = document.getElementById("settings-btn");
+const settingsModal = document.getElementById("settings-modal");
+const settingsClose = document.getElementById("settings-close");
+
+const signupModal = document.getElementById("signup-modal");
+const signupSave = document.getElementById("signup-save");
+const signupClose = document.getElementById("signup-close");
+
+// =======================
+// 3. CREATOR INFO
+// =======================
+
+const CREATOR_NAME = "Abhishek";
 const CREATOR_ROLE = "Founder & Creator of APOLLO 2.1";
 const CREATOR_IMAGE =
-  "https://1drv.ms/i/c/83897f2ef4e86778/IQAmdITSp13xT7Auge2xYIpXAU6O_J2M70woDmgSMnKelho?e=7eVQ6K"        // <-- put a photo URL or leave as "" if you don't have"; // <-- put a Dp link or keep empty ""
+  "https://1drv.ms/i/c/83897f2ef4e86778/IQAmdITSp13xT7Auge2xYIpXAU6O_J2M70woDmgSMnKelho?e=7eVQ6K";
 
-// Update founder UI in sidebar + top
-document.getElementById("founder-name").textContent = CREATOR_NAME;
-document.getElementById("founder-role").textContent = CREATOR_ROLE;
-document.getElementById("founder-name-small").textContent = CREATOR_NAME;
-document.getElementById("founder-inline").textContent = CREATOR_NAME;
-
-const avatarEl = document.getElementById("founder-avatar");
-if (CREATOR_IMAGE && avatarEl) {
-  avatarEl.style.backgroundImage = `url("${CREATOR_IMAGE}")`;
+// Only update founder-inline if it exists (so no crash)
+const founderInline = document.getElementById("founder-inline");
+if (founderInline) {
+  founderInline.textContent = CREATOR_NAME;
 }
 
-// MESSAGE HELPERS
+// =======================
+// 4. MESSAGE HELPERS
+// =======================
 
 function addMessage(text, sender = "bot", isHtml = false) {
   const div = document.createElement("div");
@@ -67,9 +69,7 @@ function addMessage(text, sender = "bot", isHtml = false) {
 }
 
 function showCreatorMessage() {
-  let html = `
-    <div style="display:flex;align-items:center;gap:10px;">
-  `;
+  let html = `<div style="display:flex;align-items:center;gap:10px;">`;
 
   if (CREATOR_IMAGE) {
     html += `
@@ -92,12 +92,10 @@ function showCreatorMessage() {
 
 function showCreatorPhotoOnly() {
   if (!CREATOR_IMAGE) {
-    addMessage(
-      "I don't have a photo URL set for my creator yet.",
-      "bot"
-    );
+    addMessage("I don't have a photo URL set for my creator yet.", "bot");
     return;
   }
+
   const html = `
     <div style="display:flex;flex-direction:column;gap:6px;">
       <span style="font-size:0.85rem;opacity:0.9;">Here is my creator 👇</span>
@@ -137,118 +135,125 @@ function showRandomMood() {
   addMessage(pick, "bot");
 }
 
-// INITIAL SYSTEM MESSAGE
+// Initial system message
 addMessage(
   "You are chatting with APOLLO 2.1. Try /help to see special commands.",
   "system"
 );
 
-// FORM HANDLER
-formEl.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const text = inputEl.value.trim();
-  if (!text) return;
+// =======================
+// 5. CHAT HANDLER
+// =======================
 
-  const lower = text.toLowerCase();
+if (formEl && inputEl && chatEl) {
+  formEl.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = inputEl.value.trim();
+    if (!text) return;
 
-  // 1. Handle custom phrases about creator first
-  if (
-    lower.includes("who created you") ||
-    lower.includes("who made you") ||
-    lower.includes("who is your creator") ||
-    lower.includes("who built you") ||
-    lower.includes("who created apollo") ||
-    lower.includes("who made apollo")
-  ) {
-    addMessage(text, "user");
-    showCreatorMessage();
-    inputEl.value = "";
-    return;
-  }
+    const lower = text.toLowerCase();
 
-  // 2. Handle questions about picture/photo
-  if (
-    lower.includes("do you have his picture") ||
-    lower.includes("show his picture") ||
-    lower.includes("show his pic") ||
-    lower.includes("creator picture") ||
-    lower.includes("creator photo") ||
-    lower.includes("show creator picture") ||
-    lower.includes("show creator pic")
-  ) {
-    addMessage(text, "user");
-    showCreatorPhotoOnly();
-    inputEl.value = "";
-    return;
-  }
-
-  // 3. Slash commands
-  if (lower === "/help") {
-    addMessage(text, "user");
-    showHelp();
-    inputEl.value = "";
-    return;
-  }
-
-  if (lower === "/creator") {
-    addMessage(text, "user");
-    showCreatorMessage();
-    inputEl.value = "";
-    return;
-  }
-
-  if (lower === "/photo") {
-    addMessage(text, "user");
-    showCreatorPhotoOnly();
-    inputEl.value = "";
-    return;
-  }
-
-  if (lower === "/mood") {
-    addMessage(text, "user");
-    showRandomMood();
-    inputEl.value = "";
-    return;
-  }
-
-  // 4. Normal AI chat flow
-  addMessage(text, "user");
-  inputEl.value = "";
-
-  const thinkingEl = document.createElement("div");
-  thinkingEl.classList.add("message", "bot");
-  thinkingEl.textContent = "Thinking...";
-  chatEl.appendChild(thinkingEl);
-  chatEl.scrollTop = chatEl.scrollHeight;
-
-  inputEl.disabled = true;
-
-  try {
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text }),
-    });
-
-    const data = await res.json();
-    chatEl.removeChild(thinkingEl);
-
-    if (!res.ok || !data.reply) {
-      addMessage(data.error || "Something went wrong.", "bot");
-    } else {
-      addMessage(data.reply, "bot");
+    // creator questions
+    if (
+      lower.includes("who created you") ||
+      lower.includes("who made you") ||
+      lower.includes("who is your creator") ||
+      lower.includes("who built you") ||
+      lower.includes("who created apollo") ||
+      lower.includes("who made apollo")
+    ) {
+      addMessage(text, "user");
+      showCreatorMessage();
+      inputEl.value = "";
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    chatEl.removeChild(thinkingEl);
-    addMessage("Error connecting to APOLLO 2.1.", "bot");
-  } finally {
-    inputEl.disabled = false;
-    inputEl.focus();
-  }
-});
 
-// SIMPLE MODALS (SETTINGS & SIGNUP)
+    // picture questions
+    if (
+      lower.includes("do you have his picture") ||
+      lower.includes("show his picture") ||
+      lower.includes("show his pic") ||
+      lower.includes("creator picture") ||
+      lower.includes("creator photo") ||
+      lower.includes("show creator picture") ||
+      lower.includes("show creator pic")
+    ) {
+      addMessage(text, "user");
+      showCreatorPhotoOnly();
+      inputEl.value = "";
+      return;
+    }
+
+    // slash commands
+    if (lower === "/help") {
+      addMessage(text, "user");
+      showHelp();
+      inputEl.value = "";
+      return;
+    }
+
+    if (lower === "/creator") {
+      addMessage(text, "user");
+      showCreatorMessage();
+      inputEl.value = "";
+      return;
+    }
+
+    if (lower === "/photo") {
+      addMessage(text, "user");
+      showCreatorPhotoOnly();
+      inputEl.value = "";
+      return;
+    }
+
+    if (lower === "/mood") {
+      addMessage(text, "user");
+      showRandomMood();
+      inputEl.value = "";
+      return;
+    }
+
+    // normal AI flow
+    addMessage(text, "user");
+    inputEl.value = "";
+
+    const thinkingEl = document.createElement("div");
+    thinkingEl.classList.add("message", "bot");
+    thinkingEl.textContent = "Thinking...";
+    chatEl.appendChild(thinkingEl);
+    chatEl.scrollTop = chatEl.scrollHeight;
+
+    inputEl.disabled = true;
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text }),
+      });
+
+      const data = await res.json();
+      chatEl.removeChild(thinkingEl);
+
+      if (!res.ok || !data.reply) {
+        addMessage(data.error || "Something went wrong.", "bot");
+      } else {
+        addMessage(data.reply, "bot");
+      }
+    } catch (err) {
+      console.error(err);
+      chatEl.removeChild(thinkingEl);
+      addMessage("Error connecting to APOLLO 2.1.", "bot");
+    } finally {
+      inputEl.disabled = false;
+      inputEl.focus();
+    }
+  });
+}
+
+// =======================
+// 6. SIMPLE MODALS (SETTINGS + DEMO SIGNUP)
+// =======================
 
 function openModal(el) {
   if (!el) return;
@@ -267,70 +272,28 @@ if (settingsClose) {
   settingsClose.addEventListener("click", () => closeModal(settingsModal));
 }
 
-if (signupBtn) {
-  signupBtn.addEventListener("click", () => openModal(signupModal));
-}
-if (signupClose) {
-  signupClose.addEventListener("click", () => closeModal(signupModal));
-}
-if (signupSave) {
-  signupSave.addEventListener("click", () => {
-    closeModal(signupModal);
-    addMessage(
-      "Signup saved (demo). In a real version your account would be created. 😉",
-      "bot"
-    );
-  });
-}
-function signupUser() {
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
-
-  auth.createUserWithEmailAndPassword(email, password)
-    .then(() => alert("Account created! You can login now"))
-    .catch(err => alert(err.message));
+if (signupModal) {
+  // These are for the small demo signup modal (NOT Firebase auth)
+  if (signupSave) {
+    signupSave.addEventListener("click", () => {
+      closeModal(signupModal);
+      addMessage(
+        "Signup saved (demo). In a real version your account would be created. 😉",
+        "bot"
+      );
+    });
+  }
+  if (signupClose) {
+    signupClose.addEventListener("click", () => closeModal(signupModal));
+  }
 }
 
-function loginUser() {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
+// =======================
+// 7. CLEAN AUTH SYSTEM
+// =======================
 
-  auth.signInWithEmailAndPassword(email, password)
-      .then(() => {
-          document.getElementById("auth-container").style.display = "none";
-          document.getElementById("signup-container").style.display = "none";
-          document.getElementById("app").style.display = "flex"; // show chat UI
-      })
-      .catch(err => alert(err.message));
-}
-
-function showSignup() {
-    document.getElementById("auth-container").style.display = "none";
-    document.getElementById("signup-container").style.display = "block";
-}
-
-function showLogin() {
-    document.getElementById("signup-container").style.display = "none";
-    document.getElementById("auth-container").style.display = "block";
-}
-
-// Auto login check
-auth.onAuthStateChanged(user => {
-    if (user) {
-        document.getElementById("auth-container").style.display = "none";
-        document.getElementById("signup-container").style.display = "none";
-        document.getElementById("app").style.display = "flex";
-    }
-});
-// ----------------------
-// =========================
-// CLEAN AUTH SYSTEM
-// =========================
-
-// Elements
+// Auth card + forms
 const authCard = document.getElementById("auth-card");
-const appEl = document.getElementById("app");
-
 const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
 
@@ -339,66 +302,75 @@ const loginPassword = document.getElementById("login-password");
 const signupEmail = document.getElementById("signup-email");
 const signupPassword = document.getElementById("signup-password");
 
-const loginBtn2 = document.getElementById("login-btn");
-const signupBtn2 = document.getElementById("signup-btn");
+const loginBtn = document.getElementById("login-btn");
+const signupBtnAuth = document.getElementById("signup-btn");
 const showSignupBtn = document.getElementById("show-signup");
 const showLoginBtn = document.getElementById("show-login");
 const authMsg = document.getElementById("auth-message");
 
 function setAuthMessage(text, isError = false) {
+  if (!authMsg) return;
   authMsg.textContent = text;
-  authMsg.style.color = isError ? "#f87171" : "#4ade80";
+  authMsg.style.color = isError ? "#f97373" : "#4ade80";
 }
 
-// Switch views
-showSignupBtn.addEventListener("click", () => {
+// Switch login <-> signup
+showSignupBtn?.addEventListener("click", () => {
+  if (!loginForm || !signupForm) return;
   loginForm.style.display = "none";
   signupForm.style.display = "block";
   setAuthMessage("");
 });
 
-showLoginBtn.addEventListener("click", () => {
+showLoginBtn?.addEventListener("click", () => {
+  if (!loginForm || !signupForm) return;
   signupForm.style.display = "none";
   loginForm.style.display = "block";
   setAuthMessage("");
 });
 
-// Signup
-signupBtn2.addEventListener("click", async () => {
+// SIGNUP HANDLER
+signupBtnAuth?.addEventListener("click", async () => {
   const email = signupEmail.value.trim();
   const password = signupPassword.value;
 
   if (!email || !password) {
-    return setAuthMessage("Enter email & password", true);
+    setAuthMessage("Enter email and password.", true);
+    return;
   }
 
   try {
     await auth.createUserWithEmailAndPassword(email, password);
-    setAuthMessage("Account created! Logged in.");
+    setAuthMessage("Account created. You are logged in!");
   } catch (err) {
+    console.error(err);
     setAuthMessage(err.message, true);
   }
 });
 
-// Login
-loginBtn2.addEventListener("click", async () => {
+// LOGIN HANDLER
+loginBtn?.addEventListener("click", async () => {
   const email = loginEmail.value.trim();
   const password = loginPassword.value;
 
   if (!email || !password) {
-    return setAuthMessage("Enter email & password", true);
+    setAuthMessage("Enter email and password.", true);
+    return;
   }
 
   try {
     await auth.signInWithEmailAndPassword(email, password);
-    setAuthMessage("Logged in!");
+    setAuthMessage("Logged in successfully!");
   } catch (err) {
+    console.error(err);
     setAuthMessage(err.message, true);
   }
 });
 
-// Auto switch UI
+// Keep UI synced with auth state
 auth.onAuthStateChanged((user) => {
+  if (!authCard || !appEl) return;
+
   if (user) {
     authCard.style.display = "none";
     appEl.style.display = "flex";
