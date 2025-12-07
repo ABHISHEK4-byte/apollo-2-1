@@ -323,47 +323,11 @@ auth.onAuthStateChanged(user => {
     }
 });
 // ----------------------
-// LOGIN HANDLER
-// ----------------------
-const loginBtn = document.getElementById("loginBtn");
+// =========================
+// CLEAN AUTH SYSTEM
+// =========================
 
-if (loginBtn) {
-    loginBtn.addEventListener("click", () => {
-        const email = document.getElementById("emailInput").value;
-        const password = document.getElementById("passwordInput").value;
-
-        auth.signInWithEmailAndPassword(email, password)
-            .then(user => {
-                alert("Logged in successfully!");
-                window.location.href = "index.html";   // redirect to main chat
-            })
-            .catch(err => {
-                alert("Login Error: " + err.message);
-            });
-    });
-}
-// ----------------------
-// SIGNUP HANDLER
-// ----------------------
-const signupBtn = document.getElementById("signupBtn");
-
-if (signupBtn) {
-    signupBtn.addEventListener("click", () => {
-        const email = document.getElementById("emailInput").value;
-        const password = document.getElementById("passwordInput").value;
-
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(user => {
-                alert("Account created!");
-                window.location.href = "index.html";
-            })
-            .catch(err => {
-                alert("Signup Error: " + err.message);
-            });
-    });
-}
-// ============= AUTH UI LOGIC =============
-
+// Elements
 const authCard = document.getElementById("auth-card");
 const appEl = document.getElementById("app");
 
@@ -375,78 +339,71 @@ const loginPassword = document.getElementById("login-password");
 const signupEmail = document.getElementById("signup-email");
 const signupPassword = document.getElementById("signup-password");
 
-const loginBtn = document.getElementById("login-btn");
-const signupBtn = document.getElementById("signup-btn");
+const loginBtn2 = document.getElementById("login-btn");
+const signupBtn2 = document.getElementById("signup-btn");
 const showSignupBtn = document.getElementById("show-signup");
 const showLoginBtn = document.getElementById("show-login");
 const authMsg = document.getElementById("auth-message");
 
 function setAuthMessage(text, isError = false) {
-  if (!authMsg) return;
   authMsg.textContent = text;
-  authMsg.style.color = isError ? "#f97373" : "#4ade80";
+  authMsg.style.color = isError ? "#f87171" : "#4ade80";
 }
 
-// switch views
-showSignupBtn?.addEventListener("click", () => {
+// Switch views
+showSignupBtn.addEventListener("click", () => {
   loginForm.style.display = "none";
   signupForm.style.display = "block";
   setAuthMessage("");
 });
 
-showLoginBtn?.addEventListener("click", () => {
+showLoginBtn.addEventListener("click", () => {
   signupForm.style.display = "none";
   loginForm.style.display = "block";
   setAuthMessage("");
 });
 
-// signup
-signupBtn?.addEventListener("click", async () => {
+// Signup
+signupBtn2.addEventListener("click", async () => {
   const email = signupEmail.value.trim();
   const password = signupPassword.value;
 
   if (!email || !password) {
-    setAuthMessage("Enter email and password.", true);
-    return;
+    return setAuthMessage("Enter email & password", true);
   }
 
   try {
     await auth.createUserWithEmailAndPassword(email, password);
-    setAuthMessage("Account created. You are logged in!");
+    setAuthMessage("Account created! Logged in.");
   } catch (err) {
-    console.error(err);
     setAuthMessage(err.message, true);
   }
 });
 
-// login
-loginBtn?.addEventListener("click", async () => {
+// Login
+loginBtn2.addEventListener("click", async () => {
   const email = loginEmail.value.trim();
   const password = loginPassword.value;
 
   if (!email || !password) {
-    setAuthMessage("Enter email and password.", true);
-    return;
+    return setAuthMessage("Enter email & password", true);
   }
 
   try {
     await auth.signInWithEmailAndPassword(email, password);
-    setAuthMessage("Logged in successfully!");
+    setAuthMessage("Logged in!");
   } catch (err) {
-    console.error(err);
     setAuthMessage(err.message, true);
   }
 });
 
-// keep UI in sync with login state
+// Auto switch UI
 auth.onAuthStateChanged((user) => {
   if (user) {
-    if (authCard) authCard.style.display = "none";
-    if (appEl) appEl.style.display = "flex";
+    authCard.style.display = "none";
+    appEl.style.display = "flex";
   } else {
-    if (authCard) authCard.style.display = "block";
-    if (appEl) appEl.style.display = "none";
+    authCard.style.display = "block";
+    appEl.style.display = "none";
   }
 });
-
-// =========================================
