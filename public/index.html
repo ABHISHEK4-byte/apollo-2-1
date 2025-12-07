@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+        <!-- Firebase SDKs (COMPAT) -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+
+    <!-- Your main script -->
+    <script src="script.js"></script>
+  </body>
+</html>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,16 +23,6 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="auth-container" class="auth-box">
-    <h2>Login to APOLLO 2.1</h2>
-
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Password">
-
-    <button onclick="loginUser()">Login</button>
-
-    <p>Don't have an account? <span onclick="showSignup()">Create one</span></p>
-</div>
 
 <div id="signup-container" class="auth-box" style="display:none;">
     <h2>Create Account</h2>
@@ -47,6 +43,34 @@
         <div class="logo-sub">AI assistant by Abhishek</div>
       </div>
     </div>
+  <!-- AUTH CARD -->
+  <div id="auth-card" class="auth-card">
+    <h2>Login to APOLLO 2.1</h2>
+
+    <!-- LOGIN FORM -->
+    <div id="login-form" class="auth-fields">
+      <input type="email" id="login-email" placeholder="Email" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <button id="login-btn" class="btn primary" style="width:100%;">Login</button>
+      <p class="auth-switch">
+        Don’t have an account?
+        <button type="button" id="show-signup" class="link-btn">Create one</button>
+      </p>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signup-form" class="auth-fields" style="display:none;">
+      <input type="email" id="signup-email" placeholder="Email" />
+      <input type="password" id="signup-password" placeholder="Password" />
+      <button id="signup-btn" class="btn primary" style="width:100%;">Sign up</button>
+      <p class="auth-switch">
+        Already have an account?
+        <button type="button" id="show-login" class="link-btn">Back to login</button>
+      </p>
+    </div>
+
+    <p id="auth-message" class="auth-message"></p>
+  </div>
 
     <!-- Main app: ONLY chat, no sidebar -->
     <div class="app" id="app" style="display:none;">
@@ -99,7 +123,12 @@
         <button class="btn ghost" id="signup-close">Close</button>
       </div>
     </div>
+    <!-- Firebase SDKs (compat) -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
 
+    <!-- Your main JS -->
     <script src="script.js"></script>
   </body>
 </html>
+

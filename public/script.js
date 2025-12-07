@@ -1,14 +1,21 @@
+// --- FIREBASE AUTH SETUP ---
+
+// Firebase Config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "XXXXXXXXXXXX",
-  appId: "XXXXXXXXXXXXXXXXXXXXXXXX"
+  apiKey: "AIzaSyACLHuKEThzkKuAd1dWAM1eGttZFud_aC-w",
+  authDomain: "apollo-2-1.firebaseapp.com",
+  projectId: "apollo-2-1",
+  storageBucket: "apollo-2-1.appspot.com",
+  messagingSenderId: "34783584862",
+  appId: "1:34783584862:web:ff896b91472a5adeb20acf"
 };
 
+// Initialize Firebase (ONLY ONCE)
 firebase.initializeApp(firebaseConfig);
+
+// Firebase Auth reference
 const auth = firebase.auth();
+
 
 
 
@@ -315,3 +322,131 @@ auth.onAuthStateChanged(user => {
         document.getElementById("app").style.display = "flex";
     }
 });
+// ----------------------
+// LOGIN HANDLER
+// ----------------------
+const loginBtn = document.getElementById("loginBtn");
+
+if (loginBtn) {
+    loginBtn.addEventListener("click", () => {
+        const email = document.getElementById("emailInput").value;
+        const password = document.getElementById("passwordInput").value;
+
+        auth.signInWithEmailAndPassword(email, password)
+            .then(user => {
+                alert("Logged in successfully!");
+                window.location.href = "index.html";   // redirect to main chat
+            })
+            .catch(err => {
+                alert("Login Error: " + err.message);
+            });
+    });
+}
+// ----------------------
+// SIGNUP HANDLER
+// ----------------------
+const signupBtn = document.getElementById("signupBtn");
+
+if (signupBtn) {
+    signupBtn.addEventListener("click", () => {
+        const email = document.getElementById("emailInput").value;
+        const password = document.getElementById("passwordInput").value;
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(user => {
+                alert("Account created!");
+                window.location.href = "index.html";
+            })
+            .catch(err => {
+                alert("Signup Error: " + err.message);
+            });
+    });
+}
+// ============= AUTH UI LOGIC =============
+
+const authCard = document.getElementById("auth-card");
+const appEl = document.getElementById("app");
+
+const loginForm = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+
+const loginEmail = document.getElementById("login-email");
+const loginPassword = document.getElementById("login-password");
+const signupEmail = document.getElementById("signup-email");
+const signupPassword = document.getElementById("signup-password");
+
+const loginBtn = document.getElementById("login-btn");
+const signupBtn = document.getElementById("signup-btn");
+const showSignupBtn = document.getElementById("show-signup");
+const showLoginBtn = document.getElementById("show-login");
+const authMsg = document.getElementById("auth-message");
+
+function setAuthMessage(text, isError = false) {
+  if (!authMsg) return;
+  authMsg.textContent = text;
+  authMsg.style.color = isError ? "#f97373" : "#4ade80";
+}
+
+// switch views
+showSignupBtn?.addEventListener("click", () => {
+  loginForm.style.display = "none";
+  signupForm.style.display = "block";
+  setAuthMessage("");
+});
+
+showLoginBtn?.addEventListener("click", () => {
+  signupForm.style.display = "none";
+  loginForm.style.display = "block";
+  setAuthMessage("");
+});
+
+// signup
+signupBtn?.addEventListener("click", async () => {
+  const email = signupEmail.value.trim();
+  const password = signupPassword.value;
+
+  if (!email || !password) {
+    setAuthMessage("Enter email and password.", true);
+    return;
+  }
+
+  try {
+    await auth.createUserWithEmailAndPassword(email, password);
+    setAuthMessage("Account created. You are logged in!");
+  } catch (err) {
+    console.error(err);
+    setAuthMessage(err.message, true);
+  }
+});
+
+// login
+loginBtn?.addEventListener("click", async () => {
+  const email = loginEmail.value.trim();
+  const password = loginPassword.value;
+
+  if (!email || !password) {
+    setAuthMessage("Enter email and password.", true);
+    return;
+  }
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    setAuthMessage("Logged in successfully!");
+  } catch (err) {
+    console.error(err);
+    setAuthMessage(err.message, true);
+  }
+});
+
+// keep UI in sync with login state
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    if (authCard) authCard.style.display = "none";
+    if (appEl) appEl.style.display = "flex";
+  } else {
+    if (authCard) authCard.style.display = "block";
+    if (appEl) appEl.style.display = "none";
+  }
+});
+
+// =========================================
