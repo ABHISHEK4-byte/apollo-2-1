@@ -1,3 +1,17 @@
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "XXXXXXXXXXXX",
+  appId: "XXXXXXXXXXXXXXXXXXXXXXXX"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+
+
 // ELEMENTS
 const chatEl = document.getElementById("chat");
 const formEl = document.getElementById("chat-form");
@@ -261,3 +275,43 @@ if (signupSave) {
     );
   });
 }
+function signupUser() {
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(() => alert("Account created! You can login now"))
+    .catch(err => alert(err.message));
+}
+
+function loginUser() {
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+          document.getElementById("auth-container").style.display = "none";
+          document.getElementById("signup-container").style.display = "none";
+          document.getElementById("app").style.display = "flex"; // show chat UI
+      })
+      .catch(err => alert(err.message));
+}
+
+function showSignup() {
+    document.getElementById("auth-container").style.display = "none";
+    document.getElementById("signup-container").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("signup-container").style.display = "none";
+    document.getElementById("auth-container").style.display = "block";
+}
+
+// Auto login check
+auth.onAuthStateChanged(user => {
+    if (user) {
+        document.getElementById("auth-container").style.display = "none";
+        document.getElementById("signup-container").style.display = "none";
+        document.getElementById("app").style.display = "flex";
+    }
+});

@@ -320,3 +320,36 @@ main#chat {
     max-width: 100%;
   }
 }
+.auth-box {
+    width: 90%;
+    max-width: 350px;
+    margin: 60px auto;
+    padding: 25px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid #2bff88;
+}
+
+.auth-box input {
+    width: 90%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+}
+
+.auth-box button {
+    width: 100%;
+    padding: 12px;
+    background: #2bff88;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    color: black;
+    font-weight: bold;
+}
+

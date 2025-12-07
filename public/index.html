@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>APOLLO 2.1</title>
@@ -14,6 +17,28 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div id="auth-container" class="auth-box">
+    <h2>Login to APOLLO 2.1</h2>
+
+    <input type="email" id="login-email" placeholder="Email">
+    <input type="password" id="login-password" placeholder="Password">
+
+    <button onclick="loginUser()">Login</button>
+
+    <p>Don't have an account? <span onclick="showSignup()">Create one</span></p>
+</div>
+
+<div id="signup-container" class="auth-box" style="display:none;">
+    <h2>Create Account</h2>
+
+    <input type="email" id="signup-email" placeholder="Email">
+    <input type="password" id="signup-password" placeholder="Password">
+
+    <button onclick="signupUser()">Sign Up</button>
+
+    <p>Already have an account? <span onclick="showLogin()">Login</span></p>
+</div>
+
     <!-- Top logo bar -->
     <div class="logo-bar">
       <div class="logo-icon">A</div>
@@ -24,7 +49,7 @@
     </div>
 
     <!-- Main app: ONLY chat, no sidebar -->
-    <div class="app">
+    <div class="app" id="app" style="display:none;">
       <div class="main">
         <header class="topbar">
           <div>
