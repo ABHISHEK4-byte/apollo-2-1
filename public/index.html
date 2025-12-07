@@ -3,26 +3,97 @@
   <head>
     <meta charset="UTF-8" />
     <title>APOLLO 2.1</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="app">
-      <header>
-        <h1>APOLLO 2.1</h1>
-        <p>Your personal multi-tool AI assistant.</p>
-      </header>
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="logo-block">
+          <div class="logo-circle">A</div>
+          <div class="logo-text">
+            <h2>APOLLO 2.1</h2>
+            <p>AI assistant for students & devs</p>
+          </div>
+        </div>
 
-      <main id="chat"></main>
+        <div class="founder-card">
+          <div class="founder-avatar" id="founder-avatar"></div>
+          <div>
+            <div class="founder-name" id="founder-name">Founder Name</div>
+            <div class="founder-role" id="founder-role">
+              Founder & Creator of APOLLO 2.1
+            </div>
+          </div>
+        </div>
 
-      <form id="chat-form">
-        <input
-          id="user-input"
-          type="text"
-          placeholder="Ask APOLLO 2.1 anything..."
-          autocomplete="off"
-        />
-        <button type="submit">Send</button>
-      </form>
+        <div class="sidebar-section">
+          <h3>Quick commands</h3>
+          <ul class="command-list">
+            <li>/help – show what I can do</li>
+            <li>/creator – about the founder</li>
+            <li>/photo – show founder photo</li>
+            <li>/mood – send a random vibe msg</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-footer">
+          <span>Made with ⚡ by <span id="founder-name-small">Founder</span></span>
+        </div>
+      </aside>
+
+      <!-- Main Area -->
+      <div class="main">
+        <header class="topbar">
+          <div>
+            <h1>APOLLO 2.1</h1>
+            <p>Your personal multi-tool AI built by <span id="founder-inline">you</span>.</p>
+          </div>
+          <div class="topbar-actions">
+            <button id="settings-btn" class="btn ghost">Settings</button>
+            <button id="signup-btn" class="btn primary">Sign up</button>
+          </div>
+        </header>
+
+        <main id="chat"></main>
+
+        <form id="chat-form">
+          <input
+            id="user-input"
+            type="text"
+            placeholder="Ask APOLLO 2.1 anything... (try /help)"
+            autocomplete="off"
+          />
+          <button type="submit" class="btn send-btn">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Simple modals -->
+    <div class="modal-backdrop" id="settings-modal">
+      <div class="modal">
+        <h2>Settings</h2>
+        <p>Settings are coming soon. For now APOLLO 2.1 is always at max power 😎</p>
+        <button class="btn primary" id="settings-close">Close</button>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="signup-modal">
+      <div class="modal">
+        <h2>Sign up</h2>
+        <p>This is a demo signup UI (no real login yet).</p>
+        <input type="text" placeholder="Your name" class="modal-input" />
+        <input type="email" placeholder="Email" class="modal-input" />
+        <button class="btn primary" id="signup-save">Sign up</button>
+        <button class="btn ghost" id="signup-close">Close</button>
+      </div>
     </div>
 
     <script src="script.js"></script>
