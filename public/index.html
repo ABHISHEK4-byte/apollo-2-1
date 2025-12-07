@@ -1,134 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-        <!-- Firebase SDKs (COMPAT) -->
-    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APOLLO 2.1</title>
 
-    <!-- Your main script -->
-    <script src="script.js"></script>
-  </body>
-</html>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>APOLLO 2.1</title>
+  <link rel="stylesheet" href="style.css">
 
-    <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+</head>
 
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+<body>
 
-<div id="signup-container" class="auth-box" style="display:none;">
-    <h2>Create Account</h2>
+<!-- AUTH CARD -->
+<div id="auth-card" class="auth-card">
+  <h2>Login to APOLLO 2.1</h2>
 
-    <input type="email" id="signup-email" placeholder="Email">
-    <input type="password" id="signup-password" placeholder="Password">
+  <!-- LOGIN FORM -->
+  <div id="login-form" class="auth-fields">
+    <input type="email" id="login-email" placeholder="Email">
+    <input type="password" id="login-password" placeholder="Password">
+    <button id="login-btn" class="btn primary">Login</button>
 
-    <button onclick="signupUser()">Sign Up</button>
-
-    <p>Already have an account? <span onclick="showLogin()">Login</span></p>
-</div>
-
-    <!-- Top logo bar -->
-    <div class="logo-bar">
-      <div class="logo-icon">A</div>
-      <div class="logo-text">
-        <div class="logo-title">APOLLO 2.1</div>
-        <div class="logo-sub">AI assistant by Abhishek</div>
-      </div>
-    </div>
-  <!-- AUTH CARD -->
-  <div id="auth-card" class="auth-card">
-    <h2>Login to APOLLO 2.1</h2>
-
-    <!-- LOGIN FORM -->
-    <div id="login-form" class="auth-fields">
-      <input type="email" id="login-email" placeholder="Email" />
-      <input type="password" id="login-password" placeholder="Password" />
-      <button id="login-btn" class="btn primary" style="width:100%;">Login</button>
-      <p class="auth-switch">
-        Don’t have an account?
-        <button type="button" id="show-signup" class="link-btn">Create one</button>
-      </p>
-    </div>
-
-    <!-- SIGNUP FORM -->
-    <div id="signup-form" class="auth-fields" style="display:none;">
-      <input type="email" id="signup-email" placeholder="Email" />
-      <input type="password" id="signup-password" placeholder="Password" />
-      <button id="signup-btn" class="btn primary" style="width:100%;">Sign up</button>
-      <p class="auth-switch">
-        Already have an account?
-        <button type="button" id="show-login" class="link-btn">Back to login</button>
-      </p>
-    </div>
-
-    <p id="auth-message" class="auth-message"></p>
+    <p class="auth-switch">
+      Don’t have an account?
+      <button type="button" id="show-signup" class="link-btn">Create one</button>
+    </p>
   </div>
 
-    <!-- Main app: ONLY chat, no sidebar -->
-    <div class="app" id="app" style="display:none;">
-      <div class="main">
-        <header class="topbar">
-          <div>
-            <h1>APOLLO 2.1</h1>
-            <p>
-              Your personal multi-tool AI built by
-              <span id="founder-inline">Abhishek</span>.
-            </p>
-          </div>
-          <div class="topbar-actions">
-            <button id="settings-btn" class="btn ghost">Settings</button>
-            <button id="signup-btn" class="btn primary">Sign up</button>
-          </div>
-        </header>
+  <!-- SIGNUP FORM -->
+  <div id="signup-form" class="auth-fields" style="display:none;">
+    <input type="email" id="signup-email" placeholder="Email">
+    <input type="password" id="signup-password" placeholder="Password">
+    <button id="signup-btn" class="btn primary">Sign up</button>
 
-        <main id="chat"></main>
+    <p class="auth-switch">
+      Already have an account?
+      <button type="button" id="show-login" class="link-btn">Back to login</button>
+    </p>
+  </div>
 
-        <form id="chat-form">
-          <input
-            id="user-input"
-            type="text"
-            placeholder="Ask APOLLO 2.1 anything... (try /help)"
-            autocomplete="off"
-          />
-          <button type="submit" class="btn send-btn">Send</button>
-        </form>
+  <p id="auth-message" class="auth-message"></p>
+</div>
+
+
+<!-- MAIN APP (hidden until login) -->
+<div class="app" id="app" style="display:none;">
+  <div class="main">
+
+    <header class="topbar">
+      <div>
+        <h1>APOLLO 2.1</h1>
+        <p>Your personal multi-tool AI built by <span id="founder-inline">Abhishek</span>.</p>
       </div>
-    </div>
 
-    <!-- Settings modal -->
-    <div class="modal-backdrop" id="settings-modal">
-      <div class="modal">
-        <h2>Settings</h2>
-        <p>Settings are coming soon. For now APOLLO 2.1 is always at max power 😎</p>
-        <button class="btn primary" id="settings-close">Close</button>
+      <div class="topbar-actions">
+        <button id="settings-btn" class="btn ghost">Settings</button>
       </div>
-    </div>
+    </header>
 
-    <!-- Signup modal -->
-    <div class="modal-backdrop" id="signup-modal">
-      <div class="modal">
-        <h2>Sign up</h2>
-        <p>This is a demo signup UI (no real login yet).</p>
-        <input type="text" placeholder="Your name" class="modal-input" />
-        <input type="email" placeholder="Email" class="modal-input" />
-        <button class="btn primary" id="signup-save">Sign up</button>
-        <button class="btn ghost" id="signup-close">Close</button>
-      </div>
-    </div>
-    <!-- Firebase SDKs (compat) -->
-    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+    <main id="chat"></main>
 
-    <!-- Your main JS -->
-    <script src="script.js"></script>
-  </body>
+    <form id="chat-form">
+      <input id="user-input" type="text" placeholder="Ask APOLLO anything..." autocomplete="off">
+      <button type="submit" class="btn send-btn">Send</button>
+    </form>
+
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-backdrop" id="settings-modal">
+  <div class="modal">
+    <h2>Settings</h2>
+    <p>Settings coming soon!</p>
+    <button class="btn primary" id="settings-close">Close</button>
+  </div>
+</div>
+
+<!-- MAIN SCRIPT -->
+<script src="script.js"></script>
+
+</body>
 </html>
-
