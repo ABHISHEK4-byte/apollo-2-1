@@ -1,20 +1,19 @@
 // =======================
 // 1. FIREBASE AUTH SETUP
 // =======================
-
-// Firebase Config (your project)
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyACLHuKEThzkKuAd1dWAM1eGttZFud_aC-w",
+  apiKey: "AIzaSyACLHuKEThzKuAd1dWAM1eGttZFud_aC-w",
   authDomain: "apollo-2-1.firebaseapp.com",
   projectId: "apollo-2-1",
-  storageBucket: "apollo-2-1.appspot.com",
+  storageBucket: "apollo-2-1.firebasestorage.app",
   messagingSenderId: "34783584862",
   appId: "1:34783584862:web:ff896b91472a5adeb20acf",
+  measurementId: "G-F8Z49E2XW8"
 };
-
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+
 
 // =======================
 // 2. BASIC ELEMENTS
