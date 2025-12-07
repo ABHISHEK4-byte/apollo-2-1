@@ -289,8 +289,13 @@ main#chat {
 /* Responsive */
 
 @media (max-width: 600px) {
+  body {
+    align-items: stretch;
+  }
+
   .logo-bar {
-    padding: 10px 10px;
+    max-width: 100%;
+    padding: 8px 10px;
   }
 
   .app {
@@ -309,5 +314,9 @@ main#chat {
 
   #chat-form {
     padding: 8px 10px 10px;
+  }
+
+  .message {
+    max-width: 100%;
   }
 }
