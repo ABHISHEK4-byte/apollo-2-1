@@ -6,7 +6,10 @@
   <title>APOLLO 2.1</title>
 
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
   <link rel="stylesheet" href="style.css">
 
@@ -17,75 +20,94 @@
 
 <body>
 
-<!-- AUTH CARD -->
-<div id="auth-card" class="auth-card">
-  <h2>Login to APOLLO 2.1</h2>
+  <!-- TOP LOGO BAR -->
+  <div class="logo-bar">
+    <div class="logo-icon">
+      <!-- Your APOLLO logo -->
+      <img src="logo.png" alt="APOLLO 2.1 Logo" class="logo-img">
+    </div>
 
-  <!-- LOGIN FORM -->
-  <div id="login-form" class="auth-fields">
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Password">
-    <button id="login-btn" class="btn primary">Login</button>
-
-    <p class="auth-switch">
-      Don’t have an account?
-      <button type="button" id="show-signup" class="link-btn">Create one</button>
-    </p>
+    <div class="logo-text">
+      <div class="logo-title">APOLLO 2.1</div>
+      <div class="logo-sub">AI assistant by Abhishek</div>
+    </div>
   </div>
 
-  <!-- SIGNUP FORM -->
-  <div id="signup-form" class="auth-fields" style="display:none;">
-    <input type="email" id="signup-email" placeholder="Email">
-    <input type="password" id="signup-password" placeholder="Password">
-    <button id="signup-btn" class="btn primary">Sign up</button>
+  <!-- AUTH CARD -->
+  <div id="auth-card" class="auth-card">
+    <h2>Login to APOLLO 2.1</h2>
 
-    <p class="auth-switch">
-      Already have an account?
-      <button type="button" id="show-login" class="link-btn">Back to login</button>
-    </p>
+    <!-- LOGIN FORM -->
+    <div id="login-form" class="auth-fields">
+      <input type="email" id="login-email" placeholder="Email">
+      <input type="password" id="login-password" placeholder="Password">
+      <button id="login-btn" class="btn primary">Login</button>
+
+      <p class="auth-switch">
+        Don’t have an account?
+        <button type="button" id="show-signup" class="link-btn">Create one</button>
+      </p>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signup-form" class="auth-fields" style="display:none;">
+      <input type="email" id="signup-email" placeholder="Email">
+      <input type="password" id="signup-password" placeholder="Password">
+      <button id="signup-btn" class="btn primary">Sign up</button>
+
+      <p class="auth-switch">
+        Already have an account?
+        <button type="button" id="show-login" class="link-btn">Back to login</button>
+      </p>
+    </div>
+
+    <p id="auth-message" class="auth-message"></p>
   </div>
 
-  <p id="auth-message" class="auth-message"></p>
-</div>
+  <!-- MAIN APP (hidden until login) -->
+  <div class="app" id="app" style="display:none;">
+    <div class="main">
 
+      <header class="topbar">
+        <div>
+          <h1>APOLLO 2.1</h1>
+          <p>
+            Your personal multi-tool AI built by
+            <span id="founder-inline">Abhishek</span>.
+          </p>
+        </div>
 
-<!-- MAIN APP (hidden until login) -->
-<div class="app" id="app" style="display:none;">
-  <div class="main">
+        <div class="topbar-actions">
+          <button id="settings-btn" class="btn ghost">Settings</button>
+        </div>
+      </header>
 
-    <header class="topbar">
-      <div>
-        <h1>APOLLO 2.1</h1>
-        <p>Your personal multi-tool AI built by <span id="founder-inline">Abhishek</span>.</p>
-      </div>
+      <main id="chat"></main>
 
-      <div class="topbar-actions">
-        <button id="settings-btn" class="btn ghost">Settings</button>
-      </div>
-    </header>
+      <form id="chat-form">
+        <input
+          id="user-input"
+          type="text"
+          placeholder="Ask APOLLO anything..."
+          autocomplete="off"
+        >
+        <button type="submit" class="btn send-btn">Send</button>
+      </form>
 
-    <main id="chat"></main>
-
-    <form id="chat-form">
-      <input id="user-input" type="text" placeholder="Ask APOLLO anything..." autocomplete="off">
-      <button type="submit" class="btn send-btn">Send</button>
-    </form>
-
+    </div>
   </div>
-</div>
 
-
-<!-- SETTINGS MODAL -->
-<div class="modal-backdrop" id="settings-modal">
-  <div class="modal">
-    <h2>Settings</h2>
-    <p>Settings coming soon!</p>
-    <button class="btn primary" id="settings-close">Close</button>
+  <!-- SETTINGS MODAL -->
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="modal">
+      <h2>Settings</h2>
+      <p>Settings coming soon!</p>
+      <button class="btn primary" id="settings-close">Close</button>
+    </div>
   </div>
-</div>
 
-<!-- Your script MUST be last -->
-<script src="script.js"></script>
+  <!-- Your script MUST be last -->
+  <script src="script.js"></script>
 
 </body>
 </html>
